@@ -132,5 +132,21 @@ mod test {
         let value = dec!(33767);
         let result = decimal_to_physical_value_type(value);
         assert_eq!(result.get_decimal_from_physical_type(), dec!(33760));
+
+        let value = dec!(3.2767);
+        let result = decimal_to_physical_value_type(value);
+        assert_eq!(get_value_from_physical_type(&result), dec!(3.276));
+
+        let value = dec!(33760000);
+        let result = decimal_to_physical_value_type(value);
+        assert_eq!(get_value_from_physical_type(&result), dec!(33760000));
+
+        let value = dec!(680000);
+        let result = decimal_to_physical_value_type(value);
+        assert_eq!(get_value_from_physical_type(&result), dec!(680000));
+
+        let value = dec!(33768000);
+        let result = decimal_to_physical_value_type(value);
+        assert_eq!(get_value_from_physical_type(&result), dec!(33760000));
     }
 }
