@@ -32,21 +32,9 @@ impl PhysicalValueType {
         }
     }    
 }
-pub fn get_decimal_from_physical_type(value: &PhysicalValueType) -> Decimal {
-    match value.multiplier {
-        i8::MIN..=-1 => {
-            let decimal =
-                Decimal::from_i128_with_scale(value.value as i128, value.multiplier.abs() as u32);
-            //let decimal = Decimal::from_parts(value.value.abs() as u32, 0,0, value.value.is_negative(), value.multiplier as u32);
-            decimal
-        }
-        1..=i8::MAX => {
-            let multi = 10_i32.pow(value.multiplier as u32);
-            let value = value.value as i128 * multi as i128;
-            value.into()
-        }
-        0 => value.value.into(),
-    }
+fn milli_to_decimal(value: u32) -> Decimal {
+    let num = Decimal::new(value.into(), 3);
+    num.normalize()
 }
 pub fn decimal_to_physical_value_type(decimal_value: Decimal) -> PhysicalValueType {
     // Strips any trailing zero’s after decimal point
